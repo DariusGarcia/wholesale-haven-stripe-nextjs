@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function LandingHeader() {
   return (
@@ -8,10 +9,11 @@ export default function LandingHeader() {
        * configure image path under next.config.js
        *
        * */}
-      <img
+      <Image
         src='https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply'
         alt=''
         className='absolute inset-0 -z-10 h-full w-full object-cover'
+        layout='fill'
       />
       <div
         className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'

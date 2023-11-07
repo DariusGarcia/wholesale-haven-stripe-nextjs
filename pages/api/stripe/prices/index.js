@@ -4,7 +4,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 const handler = async (req, res) => {
   if (req.method === 'GET') {
     try {
-      const { limit = 2, starting_after } = req.query
+      const { limit = 10, starting_after } = req.query
       if (!starting_after) {
         throw Error('The starting_after parameter is missing.')
       }
@@ -13,12 +13,13 @@ const handler = async (req, res) => {
         limit,
         starting_after,
         active: true,
-        expand: ['data.product'],
+        expand: ['data.product']
       })
 
       return res.status(200).json({ prices })
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Internal server error'
+      const errorMessage =
+        err instanceof Error ? err.message : 'Internal server error'
       return res.status(500).json({ statusCode: 500, message: errorMessage })
     }
   }

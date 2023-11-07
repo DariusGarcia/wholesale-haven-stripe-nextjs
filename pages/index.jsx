@@ -16,12 +16,12 @@ export default function Home() {
                   Your One-Stop Shop for Collectibles
                 </h2>
                 <p className='mt-6 text-lg leading-8 text-gray-600'>
-                  At Wholesale Haven, we're passionate about collectibles, and
-                  we know you are too. That's why we offer a wide range of
-                  acrylics for all your favorite collectible items, from Pokemon
-                  and Yugioh to cars and more. We also carry video games and
-                  other unique collectibles that you won't find anywhere else.
-                  Shop now and discover your next favorite item!
+                  At Wholesale Haven, we&apos;re passionate about collectibles,
+                  and we know you are too. That&apos;s why we offer a wide range
+                  of acrylics for all your favorite collectible items, from
+                  Pokemon and Yugioh to cars and more. We also carry video games
+                  and other unique collectibles that you won&apos;t find
+                  anywhere else. Shop now and discover your next favorite item!
                 </p>
               </div>
               <div className='mt-6 '>

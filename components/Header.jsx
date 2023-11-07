@@ -15,7 +15,9 @@ const Header = ({ setCartSliderIsOpen }) => {
     <header className='flex items-center justify-between px-8 py-6 bg-gray-200'>
       <Link href='/'>
         <a>
-          <div className='text-lg font-medium uppercase text-sky-700'>Home</div>
+          <div className='text-lg font-medium uppercase text-sky-700'>
+            Wholesale Haven
+          </div>
         </a>
       </Link>
       <div className='flex items-center gap-4'>

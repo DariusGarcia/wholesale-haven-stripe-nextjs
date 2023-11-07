@@ -51,7 +51,7 @@ export async function getServerSideProps() {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
   const prices = await stripe.prices.list({
     active: true,
-    limit: 2,
+    limit: 4,
     expand: ['data.product']
   })
 

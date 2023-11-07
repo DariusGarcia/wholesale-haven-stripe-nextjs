@@ -43,12 +43,12 @@ export default function Home() {
                   Why Choose Wholesale Haven?
                 </h2>
                 <p className='mt-6 text-lg leading-8 text-gray-600'>
-                  We're more than just a store - we're collectors ourselves, and
-                  we know what you're looking for. That's hwy we offer a wide
-                  selection of high-quality acrylics to protect and display your
-                  collectibles. Our prices are unbeatable, and our customer
-                  service is second to none. Shop with confidence at Wholesale
-                  Haven.
+                  We&apos;re more than just a store - we&apos;re collectors
+                  ourselves, and we know what you&apos;re looking for.
+                  That&apos;s why we offer a wide selection of high-quality
+                  acrylics to protect and display your collectibles. Our prices
+                  are unbeatable, and our customer service is second to none.
+                  Shop with confidence at Wholesale Haven.
                 </p>
               </div>
             </div>

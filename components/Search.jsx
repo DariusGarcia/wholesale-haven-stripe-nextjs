@@ -138,8 +138,7 @@ const Search = ({ open = false, setOpen }) => {
                       No results found
                     </p>
                     <p className='mt-2 text-gray-500'>
-                      No components found for this search term. Please try
-                      again.
+                      No results found for this search term. Please try again.
                     </p>
                   </div>
                 )}

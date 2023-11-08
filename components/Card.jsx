@@ -1,12 +1,20 @@
-import { useState, useEffect } from 'react'
+/* eslint-disable @next/next/no-img-element */
+import { useState, useEffect, Fragment } from 'react'
 import { useCart } from '../context/CartContext'
 import Image from 'next/image'
 
-const Card = ({ price }) => {
+import { Transition } from '@headlessui/react'
+
+import { useTimeoutFn } from 'react-use'
+
+export default function Card({ price }) {
   const { items, addItem } = useCart()
   const [error, setError] = useState('')
   const { product, unit_amount } = price
   const [showDescription, setShowDescription] = useState(false)
+
+  let [isShowing, setIsShowing] = useState(true)
+  let [, , resetIsShowing] = useTimeoutFn(() => setIsShowing(true), 500)
 
   const addItemToCart = price => {
     const found = items.find(p => p.id === price.id)
@@ -89,5 +97,3 @@ const Card = ({ price }) => {
     </div>
   )
 }
-
-export default Card

@@ -28,7 +28,7 @@ const Card = ({ price }) => {
     <div>
       <div className='relative'>
         <div className='relative flex items-start justify-center w-full h-72 rounded-lg overflow-hidden'>
-          <img
+          <Image
             src={product.images[0]}
             alt={product.description}
             className='object-scale-down rounded-md '

@@ -94,7 +94,7 @@ const Search = ({ open = false, setOpen }) => {
                                 item.color
                               )}
                             >
-                              <img
+                              <Image
                                 alt=''
                                 src={item.images[0]}
                                 width={100}

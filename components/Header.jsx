@@ -21,6 +21,11 @@ const Header = ({ setCartSliderIsOpen }) => {
         </a>
       </Link>
       <div className='flex items-center gap-4'>
+        {/* <Link href='/products'>
+          <p className='cursor-pointer text-sky-600 hover:text-sky-500 transition ease-in-out font-semibold'>
+            Shop
+          </p>
+        </Link> */}
         <MagnifyingGlassIcon
           onClick={() => setOpen(open => !open)}
           className='mt-1 h-5 w-5 cursor-pointer text-sky-700 group-hover:text-sky-800'

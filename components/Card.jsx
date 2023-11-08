@@ -26,13 +26,12 @@ const Card = ({ price }) => {
 
   return (
     <div>
-      <div className='relative'>
+      <div className='relative border-b-2  pb-8'>
         <div className='relative flex items-start justify-center w-full h-72 rounded-lg overflow-hidden'>
-          <Image
+          <img
             src={product.images[0]}
             alt={product.description}
             className='object-scale-down rounded-md '
-            layout='fill'
           />
         </div>
         <div className='relative mt-4'>

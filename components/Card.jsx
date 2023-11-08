@@ -33,23 +33,35 @@ export default function Card({ price }) {
   const descriptionText = product.description
 
   return (
-    <div>
-      <div className='relative border-b-2  pb-8'>
-        <div className='relative flex items-start justify-center w-full h-72 rounded-lg overflow-hidden'>
+    <div className='hover:bg-gray-50 transition ease-out'>
+      <div className='relative p-4 rounded-lg md:border md:border-gray-200 min-h-[12rem] h-full '>
+        <div className='relative flex items-start justify-center aspect-w-3 aspect-h-4 h-full md:min-h-[16rem] max-h-[16rem] md:aspect-none overflow-hidden border-b-2'>
           <img
             src={product.images[0]}
             alt={product.description}
-            className='object-scale-down rounded-md '
+            className='object-scale-down rounded-sm max-h-96'
           />
         </div>
         <div className='relative mt-4'>
-          <h3 className='text-md font-medium text-gray-900 items-center flex min-h-[3rem]'>
+          <h3 className='flex min-h-[3rem] mb-2 items-start text-md font-medium text-gray-900'>
             {product.name}
           </h3>
+          <div className='rounded-lg flex overflow-hidden mb-4'>
+            <div
+              aria-hidden='true'
+              className='bg-gradient-to-t from-black opacity-50'
+            />
+            <p className='relative text-lg font-semibold text-black'>
+              {(unit_amount / 100).toLocaleString('en-CA', {
+                style: 'currency',
+                currency: 'CAD'
+              })}
+            </p>
+          </div>
           <div className='mb-4 items-end justify-end h-full '>
             <button
               onClick={() => addItemToCart(price)}
-              className='relative flex bg-sky-500 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-medium text-gray-900 hover:bg-sky-400 transition ease-in-out'
+              className='relative flex bg-blue-400 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-semibold text-gray-900 hover:text-black hover:bg-blue-300 transition ease-in-out'
             >
               Add to Cart<span className='sr-only'>, {product.name}</span>
             </button>
@@ -58,17 +70,14 @@ export default function Card({ price }) {
           {descriptionText?.length > 75 ? (
             <div>
               {showDescription ? (
-                <p
-                  className='mt-1 text-sm text-gray-500 min-h-[
-                  3rem]'
-                >
+                <p className='mt-1 text-sm text-gray-500 min-h-[3rem]'>
                   {descriptionText}
                 </p>
               ) : (
-                <p
-                  className='mt-1 text-sm text-gray-500 min-h-[
-                  3rem]'
-                >{`${descriptionText.slice(0, 75)}...`}</p>
+                <p className='mt-1 text-sm text-gray-500 min-h-[3rem]'>{`${descriptionText.slice(
+                  0,
+                  70
+                )}...`}</p>
               )}
               <button
                 onClick={() => setShowDescription(!showDescription)}
@@ -80,18 +89,6 @@ export default function Card({ price }) {
           ) : (
             <p className='mt-1 text-sm text-gray-500'>{descriptionText}</p>
           )}
-        </div>
-        <div className='absolute top-0 inset-x-0 h-72 rounded-lg p-4 flex items-end justify-end overflow-hidden'>
-          <div
-            aria-hidden='true'
-            className='absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50'
-          />
-          <p className='relative text-lg font-semibold text-white'>
-            {(unit_amount / 100).toLocaleString('en-CA', {
-              style: 'currency',
-              currency: 'USD'
-            })}
-          </p>
         </div>
       </div>
     </div>

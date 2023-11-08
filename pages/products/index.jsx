@@ -64,7 +64,7 @@ const HomePage = ({ prices: { data = [], has_more } }) => {
       </div>
       <div className='relative bg-white'>
         <div className='max-w-2xl mx-auto p-4 sm:p-8 lg:max-w-7xl'>
-          <h2 className='text-2xl font-bold text-gray-900'>Products</h2>
+          <h2 className='text-2xl font-bold text-gray-900'>All Products</h2>
 
           <div className='mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8'>
             {products.map(price => (
@@ -89,7 +89,7 @@ export async function getServerSideProps() {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
   const prices = await stripe.prices.list({
     active: true,
-    limit: 4,
+    limit: 8,
     expand: ['data.product']
   })
 

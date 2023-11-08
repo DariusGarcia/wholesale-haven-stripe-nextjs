@@ -4,14 +4,14 @@ import Image from 'next/image'
 export default function LandingHeader() {
   return (
     <div className='relative isolate overflow-hidden pt-14'>
-      <Image
+      <img
         src='https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply'
         alt=''
         className='absolute inset-0 -z-10 h-full w-full object-cover'
         layout='fill'
       />
       <div
-        className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
+        className='absolute inset-x-0 top-0 z-0 transform-gpu overflow-hidden blur-3xl sm:-top-80'
         aria-hidden='true'
       >
         <div
@@ -42,10 +42,9 @@ export default function LandingHeader() {
             Digimon, automobiles, and much more. Explore our diverse catalog,
             featuring video games and a wide array of collectible treasures.
           </p>
-          <div className='mt-10 flex items-center justify-center gap-x-6'>
+          <div className=' mt-10 z-20 flex items-center justify-center gap-x-6'>
             <Link href='/products'>
               <span className='rounded-md cursor-pointer bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400'>
-                {' '}
                 Shop Acrylics
               </span>
             </Link>

@@ -1,116 +1,121 @@
-import Image from 'next/image'
 import LandingHeader from '../components/header/landingHeader'
+import Features from '../components/features'
 import Link from 'next/link'
+import Stripe from 'stripe'
+import Card from '../components/Card'
+import { useState, useRef } from 'react'
+import { useCart } from '../context/CartContext'
+import { ShoppingBagIcon } from '@heroicons/react/24/outline'
+import ShoppingCartSlideOver from '../components/ShoppingCart'
 
-export default function Home() {
+export default function Home({ prices: { data = [], has_more } }) {
+  const [products, setProducts] = useState(data)
+  const [hasMore, setHasMore] = useState(has_more)
+
+  const { items } = useCart()
+  const [open, setOpen] = useState(false)
+
+  const [cartSliderIsOpen, setCartSliderIsOpen] = useState(false)
+
+  const lastProductId = products[products.length - 1]?.id
+
+  const loadMore = async () => {
+    if (!hasMore || !lastProductId) return
+
+    try {
+      const { prices } = await fetch(
+        `/api/stripe/prices?starting_after=${lastProductId}`
+      ).then(res => res.json())
+      if (prices.data) {
+        setProducts(products => [...products, ...prices.data])
+        setHasMore(prices.has_more)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const targetRef = useRef(null)
+
   return (
-    <>
-      <main className=''>
-        <LandingHeader />
-        {/* Feature section */}
-        <section className='flex justify-center'>
-          <div className='bg-white pt-24 pb-12 sm:py-24'>
-            <div className='mx-auto max-w-7xl px-6 lg:px-8'>
-              <div className='mx-auto max-w-2xl lg:mx-0'>
-                <h2 className='text-4xl font-semibold tracking-tight text-gray-900 sm:text-6xl'>
-                  Your One-Stop Shop for Collectibles
-                </h2>
-                <p className='mt-6 text-lg leading-8 text-gray-600'>
-                  At Wholesale Haven, we&apos;re passionate about collectibles,
-                  and we know you are too. That&apos;s why we offer a wide range
-                  of acrylics for all your favorite collectible items, from
-                  Pokemon and Yugioh to cars and more. We also carry video games
-                  and other unique collectibles that you won&apos;t find
-                  anywhere else. Shop now and discover your next favorite item!
-                </p>
-              </div>
-              <div className='mt-6 '>
-                <Link
-                  href='/#'
-                  className='uppercase font-semibold border-b-2 border-black '
+    <main className=''>
+      <LandingHeader
+        scrollToTarget={() =>
+          targetRef.current.scrollIntoView({ behavior: 'smooth' })
+        }
+      />
+      {/* Feature section */}
+      {/* <Features /> */}
+      {/* Products */}
+      <section>
+        <div className='z-50 fixed bottom-10 right-5 '>
+          <div className=' bg-sky-200 hover:bg-sky-100 transition ease-in-out   items-start flex justify-center rounded-full'>
+            <ShoppingCartSlideOver
+              open={cartSliderIsOpen}
+              setCartSliderIsOpen={setCartSliderIsOpen}
+            />
+
+            {!cartSliderIsOpen && (
+              <div className='flow-root p-2'>
+                <div
+                  className='group p-2 flex items-center cursor-pointer'
+                  onClick={() => setCartSliderIsOpen(open => !open)}
                 >
-                  Read more
-                </Link>
+                  <ShoppingBagIcon
+                    className='flex-shrink-0 h-5 w-5 text-sky-700 group-hover:text-sky-800'
+                    aria-hidden='true'
+                  />
+                  <span className='ml-2 text-sm font-medium text-sky-700 group-hover:text-sky-800'>
+                    ( {items.length} )
+                  </span>
+                  <span className='sr-only'>items in cart, view bag</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
-        </section>
-        <section className='flex justify-center'>
-          <div className='bg-white pt-24 pb-12 sm:pt-24'>
-            <div className='mx-auto max-w-7xl px-6 lg:px-8'>
-              <div className='mx-auto max-w-2xl lg:mx-0'>
-                <h2 className='text-4xl font-semibold tracking-tight text-gray-900 sm:text-6xl'>
-                  Why Choose Wholesale Haven?
-                </h2>
-                <p className='mt-6 text-lg leading-8 text-gray-600'>
-                  We&apos;re more than just a store - we&apos;re collectors
-                  ourselves, and we know what you&apos;re looking for.
-                  That&apos;s why we offer a wide selection of high-quality
-                  acrylics to protect and display your collectibles. Our prices
-                  are unbeatable, and our customer service is second to none.
-                  Shop with confidence at Wholesale Haven.
-                </p>
-              </div>
+        </div>
+        {/* Products display */}
+        <div className='relative bg-white my-12'>
+          <div className='max-w-2xl mx-auto px-2 md:p-4 sm:p-8 lg:max-w-7xl'>
+            <h2
+              id='shop-products'
+              className='md:mb-12 pl-4 md:pl-0 text-2xl font-bold text-gray-900 '
+              ref={targetRef}
+            >
+              Shop products
+            </h2>
+
+            <div className='md:mt-8 grid grid-cols-2 gap-y-12 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8'>
+              {products.map(price => (
+                <Card key={price.id} price={price} />
+              ))}
             </div>
+
+            <button
+              onClick={loadMore}
+              disabled={!hasMore}
+              className='md:mt-10 mt-24 w-full bg-sky-100 rounded-md py-2 md:px-8 text-sm font-medium text-sky-900 hover:bg-sky-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-sky-100'
+            >
+              Load more
+            </button>
           </div>
-        </section>
-        {/* Numbered list features */}
-        <section className='flex justify-center  py-4'>
-          <div className='bg-white'>
-            <div className='mx-auto max-w-7xl px-6 lg:px-8 bg-gray-50 py-4 rounded-md'>
-              <div className='mx-auto max-w-2xl lg:mx-0'>
-                {features.map((feature, index) => (
-                  <div
-                    className={`my-12 ${
-                      feature.border
-                        ? 'pb-12 border-b-2 border-gray-200'
-                        : 'pb-0'
-                    }`}
-                    key={index}
-                  >
-                    <p className='text-blue-500 font-bold text-lg'>
-                      {feature.number}
-                    </p>
-                    <h2 className='text-2xl sm:text-3xl font-semibold tracking-tight text-gray-900 '>
-                      {feature.title}
-                    </h2>
-                    <p className='mt-6 text-lg leading-8 text-gray-600'>
-                      {feature.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   )
 }
 
-const features = [
-  {
-    number: '01.',
-    title: 'Protection for Your Collectibles',
-    text: 'Our high-quality acrylics keep your collectibles safe from dust, scratches, and damage, so you can enjoy them for years to come.',
-    border: true
-  },
-  {
-    number: '02.',
-    title: 'Affordable Prices',
-    text: 'We offer unbeatable prices on all our products, so you can grow your collection without breaking the bank.',
-    border: true
-  },
-  {
-    number: '03.',
-    title: 'Fast Shipping',
-    text: "We know you can't wait to get your hands on your new collectibles, so we offer fast and reliable shipping to get your order to you as soon as possible.",
-    border: true
-  },
-  {
-    number: '04.',
-    title: 'Unique Selection',
-    text: "We carry a wide variety of collectibles that you won't find anywhere else, so you can add something truly unique to your collection. ",
-    border: false
+export async function getServerSideProps() {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+  const prices = await stripe.prices.list({
+    active: true,
+    limit: 8,
+    expand: ['data.product']
+  })
+
+  return {
+    props: {
+      prices
+    }
   }
-]
+}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-export default function LandingHeader() {
+export default function LandingHeader({ scrollToTarget }) {
   return (
     <div className='relative isolate overflow-hidden pt-14'>
       <img
@@ -43,14 +43,11 @@ export default function LandingHeader() {
             featuring video games and a wide array of collectible treasures.
           </p>
           <div className=' mt-10 z-20 flex items-center justify-center gap-x-6'>
-            <Link href='/products'>
-              <span className='rounded-md cursor-pointer bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400'>
-                Shop Acrylics
+            <button onClick={scrollToTarget} href='shop-products'>
+              <span className='rounded-sm cursor-pointer bg-blue-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400'>
+                Shop now
               </span>
-            </Link>
-            <a href='#' className='text-sm font-semibold leading-6 text-white'>
-              Login <span aria-hidden='true'>→</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>

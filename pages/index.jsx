@@ -7,6 +7,7 @@ import { useState, useRef } from 'react'
 import { useCart } from '../context/CartContext'
 import { ShoppingBagIcon } from '@heroicons/react/24/outline'
 import ShoppingCartSlideOver from '../components/ShoppingCart'
+import { motion as m, AnimatePresence, useAnimation } from 'framer-motion'
 
 export default function Home({ prices: { data = [], has_more } }) {
   const [products, setProducts] = useState(data)
@@ -36,6 +37,7 @@ export default function Home({ prices: { data = [], has_more } }) {
   }
 
   const targetRef = useRef(null)
+  const secondaryFeaturesControls = useAnimation()
 
   return (
     <main className=''>
@@ -84,13 +86,27 @@ export default function Home({ prices: { data = [], has_more } }) {
             >
               Shop products
             </h2>
-
-            <div className='md:mt-8 grid grid-cols-2 gap-y-12 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8'>
-              {products.map(price => (
-                <Card key={price.id} price={price} />
-              ))}
-            </div>
-
+            <AnimatePresence>
+              <m.div
+                initial={{ opacity: 0, y: 200 }}
+                animate={secondaryFeaturesControls}
+                onViewportEnter={() => {
+                  secondaryFeaturesControls.start({ opacity: 1, y: 0 })
+                }}
+                transition={{
+                  type: 'spring',
+                  bounce: 0.4,
+                  duration: 1,
+                  delay: 0.2
+                }}
+                className='md:mt-8 grid grid-cols-2 gap-y-12 sm:gap-x-6
+                lg:grid-cols-4 xl:gap-x-8'
+              >
+                {products.map(price => (
+                  <Card key={price.id} price={price} />
+                ))}
+              </m.div>
+            </AnimatePresence>
             <button
               onClick={loadMore}
               disabled={!hasMore}

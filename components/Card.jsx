@@ -1,9 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect } from 'react'
 import { useCart } from '../context/CartContext'
 import Image from 'next/image'
-
-import { Transition } from '@headlessui/react'
 
 import { useTimeoutFn } from 'react-use'
 
@@ -18,10 +16,13 @@ export default function Card({ price }) {
 
   const addItemToCart = price => {
     const found = items.find(p => p.id === price.id)
-    if (found) {
-      setError('Item has been added!')
-      return
-    }
+    /**
+     * Uncomment this if you only want to allow one item per product
+     */
+    // if (found) {
+    //   setError('Item has been added!')
+    //   return
+    // }
     addItem(price)
   }
 
@@ -43,7 +44,7 @@ export default function Card({ price }) {
           />
         </div>
         <div className='relative mt-4'>
-          <h3 className='flex min-h-[3rem] mb-2 items-start text-md font-medium text-gray-900'>
+          <h3 className='flex min-h-[3rem] mb-2 justify-center items-start text-center text-md font-medium text-gray-900'>
             {product.name}
           </h3>
           <div className='rounded-lg flex overflow-hidden mb-4'>
@@ -51,23 +52,24 @@ export default function Card({ price }) {
               aria-hidden='true'
               className='bg-gradient-to-t from-black opacity-50'
             />
-            <p className='relative text-lg font-semibold text-black'>
+            <p className='flex w-full relative text-lg text-center justify-center text-black'>
+              From{' '}
               {(unit_amount / 100).toLocaleString('en-CA', {
                 style: 'currency',
                 currency: 'CAD'
               })}
             </p>
           </div>
-          <div className='mb-4 items-end justify-end h-full '>
+          <div className='mb-4 mt-6 items-end justify-end h-full '>
             <button
               onClick={() => addItemToCart(price)}
-              className='relative flex bg-blue-400 border border-transparent rounded-md py-2 px-8 items-center justify-center text-sm font-semibold text-gray-900 hover:text-black hover:bg-blue-300 transition ease-in-out'
+              className='relative flex bg-blue-400 border border-transparent py-2 px-8 w-full items-center justify-center text-sm font-medium text-white hover:text-black hover:bg-blue-300 transition ease-in-out'
             >
               Add to Cart<span className='sr-only'>, {product.name}</span>
             </button>
             {error && <p className='text-sm text-red-400'>{error}</p>}
           </div>
-          {descriptionText?.length > 75 ? (
+          {/* {descriptionText?.length > 75 ? (
             <div>
               {showDescription ? (
                 <p className='mt-1 text-sm text-gray-500 min-h-[3rem]'>
@@ -88,7 +90,7 @@ export default function Card({ price }) {
             </div>
           ) : (
             <p className='mt-1 text-sm text-gray-500'>{descriptionText}</p>
-          )}
+          )} */}
         </div>
       </div>
     </div>

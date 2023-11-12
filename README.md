@@ -1,3 +1,15 @@
+# Wholesale Haven Ecommerce App
+
+![Screenshot of web app](https://i.ibb.co/JrBHV2L/wholesale-screenshot-products.png)
+
+![Screenshot of web app](https://i.ibb.co/6NzKNmj/wholesale-screenshot-cart.png)
+
+## Technologies 
+- [x] Next.js
+- [x] Stripe API
+- [x] Tailwind CSS
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

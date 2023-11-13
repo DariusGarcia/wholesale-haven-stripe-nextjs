@@ -1,4 +1,11 @@
-import { useState, useEffect, useRef, useContext, createContext, useCallback } from 'react'
+import {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  createContext,
+  useCallback
+} from 'react'
 
 const CartContext = createContext()
 export const useCart = () => useContext(CartContext)
@@ -21,7 +28,10 @@ const CartProvider = ({ children }) => {
     saveJSON(key, items)
   }, [key, items])
 
-  const addItem = useCallback(price => setItems(prices => prices.concat([price])), [])
+  const addItem = useCallback(
+    price => setItems(prices => prices.concat([price])),
+    []
+  )
   const removeItem = useCallback(
     id => setItems(prices => prices.filter(price => price.id !== id)),
     []

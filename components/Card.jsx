@@ -58,7 +58,7 @@ export default function Card({ price }) {
               className='bg-gradient-to-t from-black opacity-50'
             />
             <p className='flex w-full relative text-lg text-center justify-center text-black'>
-              From
+              From{' '}
               {(unit_amount / 100).toLocaleString('en-CA', {
                 style: 'currency',
                 currency: 'CAD'

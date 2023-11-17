@@ -1,25 +1,35 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Disclosure, RadioGroup, Tab } from '@headlessui/react'
-import { StarIcon } from '@heroicons/react/20/solid'
-import { HeartIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
+import { Tab } from '@headlessui/react'
 import ProductList from '../../components/productList'
 import { client } from '../../sanity/lib/client'
 import Stripe from 'stripe'
+import { useCart } from '../../context/CartContext'
 
 export default function ProductOverview({ productDetails, matchedProduct }) {
-  // const [selectedColor, setSelectedColor] = useState(product.colors[0])
+  const { items, addItem } = useCart()
   const router = useRouter()
 
   useEffect(() => {
-    // Check if slug is undefined and redirect to 404 page
-    if (router.query.slug === '/undefined') {
+    // Check if ID slug is undefined and redirect to 404 page
+    if (router.query.id === 'undefined') {
       router.push('/404')
     }
-  }, [router.query.slug])
+  }, [router.query.id])
 
-  console.log({ matchedProduct: matchedProduct })
+  const addItemToCart = price => {
+    const found = items.find(p => p.id === price.id)
+    /**
+     * Uncomment this if you only want to allow one item per product
+     */
+    // if (found) {
+    //   setError('Item has been added!')
+    //   return
+    // }
+    addItem(price)
+  }
+
   return (
     <div className='bg-white'>
       <div className='mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:max-w-7xl lg:px-8'>
@@ -97,6 +107,7 @@ export default function ProductOverview({ productDetails, matchedProduct }) {
               <div className='mt-10 flex'>
                 <button
                   type='submit'
+                  onClick={() => addItemToCart(matchedProduct)}
                   className='flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-sky-600 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 transition ease-in-out focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full'
                 >
                   Add to bag
@@ -108,52 +119,6 @@ export default function ProductOverview({ productDetails, matchedProduct }) {
               <h2 id='details-heading' className='sr-only'>
                 Additional details
               </h2>
-
-              <div className='divide-y divide-gray-200 border-t'>
-                {product.details.map(detail => (
-                  <Disclosure as='div' key={detail.name}>
-                    {({ open }) => (
-                      <>
-                        <h3 className='hover:bg-gray-50 px-2 transition ease-in-out'>
-                          <Disclosure.Button className='group relative flex w-full items-center justify-between py-6 text-left'>
-                            <span
-                              className={classNames(
-                                open ? 'text-sky-600' : 'text-gray-900',
-                                'text-sm font-medium'
-                              )}
-                            >
-                              {detail.name}
-                            </span>
-                            <span className='ml-6 flex items-center'>
-                              {open ? (
-                                <MinusIcon
-                                  className='block h-6 w-6 text-sky-400 group-hover:text-sky-500'
-                                  aria-hidden='true'
-                                />
-                              ) : (
-                                <PlusIcon
-                                  className='block h-6 w-6 text-gray-400 group-hover:text-gray-500'
-                                  aria-hidden='true'
-                                />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </h3>
-                        <Disclosure.Panel
-                          as='div'
-                          className='prose prose-sm pb-6'
-                        >
-                          <ul role='list'>
-                            {productDetails?.features?.map(item => (
-                              <li key={item._key}>{item.description}</li>
-                            ))}
-                          </ul>
-                        </Disclosure.Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
-              </div>
             </section>
           </div>
         </div>
@@ -161,64 +126,6 @@ export default function ProductOverview({ productDetails, matchedProduct }) {
       <ProductList />
     </div>
   )
-}
-
-const product = {
-  name: 'Acrylic Display Case',
-  price: '$50.00',
-  rating: 4,
-  images: [
-    {
-      id: 1,
-      name: 'Angled view',
-      src: 'https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg',
-      alt: 'Angled front view with bag zipped and handles upright.'
-    },
-    {
-      id: 1,
-      name: 'Angled view',
-      src: '/placeholder.png',
-      alt: 'Angled front view with bag zipped and handles upright.'
-    },
-    {
-      id: 1,
-      name: 'Angled view',
-      src: '/placeholder.png',
-      alt: 'Angled front view with bag zipped and handles upright.'
-    }
-    // More images...
-  ],
-  colors: [
-    {
-      name: 'Washed Black',
-      bgColor: 'bg-gray-700',
-      selectedColor: 'ring-gray-700'
-    },
-    { name: 'White', bgColor: 'bg-white', selectedColor: 'ring-gray-400' },
-    {
-      name: 'Washed Gray',
-      bgColor: 'bg-gray-500',
-      selectedColor: 'ring-gray-500'
-    }
-  ],
-  description: `
-      Fringilla phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec. Duis tristique sollicitudin nibh sit amet commodo. Elit ut aliquam purus sit. Vitae congue mauris rhoncus aenean vel elit scelerisque mauris. Sit amet luctus venenatis lectus magna fringilla urna porttitor rhoncus.
-    `,
-  details: [
-    {
-      name: 'Features',
-      items: [
-        'Amet facilisis magna etiam tempor orci.',
-        'Amet facilisis magna etiam tempor orci.',
-        'Amet facilisis magna etiam tempor orci.',
-        'Amet facilisis magna etiam tempor orci.',
-        'Amet facilisis magna etiam tempor orci.',
-        'Amet facilisis magna etiam tempor orci.',
-        'Amet facilisis magna etiam tempor orci.'
-      ]
-    }
-    // More sections...
-  ]
 }
 
 function classNames(...classes) {

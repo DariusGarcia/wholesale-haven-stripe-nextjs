@@ -8,7 +8,7 @@ import { client } from '../../sanity/lib/client'
 
 export default function ProductOverview({ productDetails }) {
   // const [selectedColor, setSelectedColor] = useState(product.colors[0])
-  console.log({ productDetails: productDetails.images[0].asset.url })
+
   return (
     <div className='bg-white'>
       <div className='mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:max-w-7xl lg:px-8'>
@@ -18,9 +18,9 @@ export default function ProductOverview({ productDetails }) {
             {/* Image selector */}
             <div className='mx-auto mt-6 block w-full max-w-2xl lg:max-w-none'>
               <Tab.List className='grid grid-cols-4 gap-6'>
-                {productDetails.images.map(image => (
+                {productDetails.images.map((image, index) => (
                   <Tab
-                    key={image.id}
+                    key={index}
                     className='relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4'
                   >
                     {({ selected }) => (
@@ -30,7 +30,7 @@ export default function ProductOverview({ productDetails }) {
                           <img
                             src={image.asset.url}
                             alt=''
-                            className='h-full w-full object-cover object-center'
+                            className='h-full  w-auto object-cover object-center'
                           />
                         </span>
                         <span
@@ -48,12 +48,12 @@ export default function ProductOverview({ productDetails }) {
             </div>
 
             <Tab.Panels className='aspect-h-1 aspect-w-1 w-full'>
-              {productDetails.images.map(image => (
-                <Tab.Panel key={image.id}>
+              {productDetails.images.map((image, index) => (
+                <Tab.Panel key={index}>
                   <img
                     src={image.asset.url}
                     alt={image.alt}
-                    className='h-full w-full object-cover object-center sm:rounded-lg'
+                    className='h-full w-auto object-cover object-center sm:rounded-lg'
                   />
                 </Tab.Panel>
               ))}

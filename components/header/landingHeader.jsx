@@ -26,10 +26,10 @@ export default function LandingHeader({ scrollToTarget }) {
         <div className='hidden sm:mb-8 sm:flex sm:justify-center'>
           <div className='relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20'>
             Browse our most recent released products.{' '}
-            <a href='#' className='font-semibold text-white'>
+            <Link href='#' className='font-semibold text-white'>
               <span className='absolute inset-0' aria-hidden='true' />
               See more <span aria-hidden='true'>&rarr;</span>
-            </a>
+            </Link>
           </div>
         </div>
         <div className='text-center'>

@@ -35,7 +35,7 @@ export default function Card({ price }) {
   // const descriptionText = product.description
 
   return (
-    <div className='md:hover:bg-gray-50 transition ease-out'>
+    <div className='md:hover:bg-gray-50 transition ease-out' key={price.id}>
       <div className='relative p-4 rounded-lg md:border md:border-gray-200 min-h-[12rem] h-full '>
         <div className='relative flex items-start justify-center aspect-w-3 aspect-h-4 h-full md:min-h-[16rem] max-h-[16rem] md:aspect-none overflow-hidden border-b-2'>
           <Link href={`/products/${idSlug}`}>

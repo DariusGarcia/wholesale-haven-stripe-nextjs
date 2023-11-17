@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from 'react'
 import { useCart } from '../context/CartContext'
-import Image from 'next/image'
-
 import { useTimeoutFn } from 'react-use'
+import Link from 'next/link'
 
 export default function Card({ price }) {
   const { items, addItem } = useCart()
@@ -13,6 +12,8 @@ export default function Card({ price }) {
 
   let [isShowing, setIsShowing] = useState(true)
   let [, , resetIsShowing] = useTimeoutFn(() => setIsShowing(true), 500)
+
+  const idSlug = product.metadata?.id
 
   const addItemToCart = price => {
     const found = items.find(p => p.id === price.id)
@@ -31,29 +32,33 @@ export default function Card({ price }) {
     return () => clearTimeout(timeout)
   }, [error])
 
-  const descriptionText = product.description
+  // const descriptionText = product.description
 
   return (
     <div className='md:hover:bg-gray-50 transition ease-out'>
       <div className='relative p-4 rounded-lg md:border md:border-gray-200 min-h-[12rem] h-full '>
         <div className='relative flex items-start justify-center aspect-w-3 aspect-h-4 h-full md:min-h-[16rem] max-h-[16rem] md:aspect-none overflow-hidden border-b-2'>
-          <img
-            src={product.images[0]}
-            alt={product.description}
-            className='object-scale-down rounded-sm max-h-96'
-          />
+          <Link href={`/products/${idSlug}`}>
+            <img
+              src={product.images[0]}
+              alt={product.description}
+              className='object-scale-down rounded-sm max-h-96 hover:cursor-pointer hover:opacity-75 transition ease-in-out'
+            />
+          </Link>
         </div>
         <div className='relative mt-4'>
-          <h3 className='flex min-h-[3rem] mb-2 justify-center items-start text-center text-md font-medium text-gray-900'>
-            {product.name}
-          </h3>
+          <Link href={`/products/${idSlug}`}>
+            <h3 className='flex min-h-[3rem] mb-2 justify-center items-start text-center text-md font-medium text-gray-900 hover:cursor-pointer transition ease-in-out hover:opacity-80 hover:underline'>
+              {product.name}
+            </h3>
+          </Link>
           <div className='rounded-lg flex overflow-hidden mb-4'>
             <div
               aria-hidden='true'
               className='bg-gradient-to-t from-black opacity-50'
             />
             <p className='flex w-full relative text-lg text-center justify-center text-black'>
-              From{' '}
+              From
               {(unit_amount / 100).toLocaleString('en-CA', {
                 style: 'currency',
                 currency: 'CAD'
@@ -63,7 +68,7 @@ export default function Card({ price }) {
           <div className='mb-4 mt-6 items-end justify-end h-full '>
             <button
               onClick={() => addItemToCart(price)}
-              className='relative flex bg-blue-400 border border-transparent py-2 px-8 w-full items-center justify-center text-sm font-medium text-white hover:text-black hover:bg-blue-300 transition ease-in-out'
+              className='relative flex bg-blue-400 border border-transparent py-2 px-8 w-full items-center justify-center text-sm font-medium text-white hover:bg-blue-500 transition ease-in-out'
             >
               Add to Cart<span className='sr-only'>, {product.name}</span>
             </button>

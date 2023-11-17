@@ -4,10 +4,11 @@ import { Disclosure, RadioGroup, Tab } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { HeartIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
 import ProductList from '../../components/productList'
+import { client } from '../../sanity/lib/client'
 
-export default function ProductOverview() {
+export default function ProductOverview({ productDetails }) {
   // const [selectedColor, setSelectedColor] = useState(product.colors[0])
-
+  console.log({ productDetails: productDetails.images[0].asset.url })
   return (
     <div className='bg-white'>
       <div className='mx-auto max-w-2xl px-4 py-12 sm:px-6 lg:max-w-7xl lg:px-8'>
@@ -17,7 +18,7 @@ export default function ProductOverview() {
             {/* Image selector */}
             <div className='mx-auto mt-6 block w-full max-w-2xl lg:max-w-none'>
               <Tab.List className='grid grid-cols-4 gap-6'>
-                {product.images.map(image => (
+                {productDetails.images.map(image => (
                   <Tab
                     key={image.id}
                     className='relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4'
@@ -27,7 +28,7 @@ export default function ProductOverview() {
                         <span className='sr-only'>{image.name}</span>
                         <span className='absolute inset-0 overflow-hidden rounded-md'>
                           <img
-                            src={image.src}
+                            src={image.asset.url}
                             alt=''
                             className='h-full w-full object-cover object-center'
                           />
@@ -47,10 +48,10 @@ export default function ProductOverview() {
             </div>
 
             <Tab.Panels className='aspect-h-1 aspect-w-1 w-full'>
-              {product.images.map(image => (
+              {productDetails.images.map(image => (
                 <Tab.Panel key={image.id}>
                   <img
-                    src={image.src}
+                    src={image.asset.url}
                     alt={image.alt}
                     className='h-full w-full object-cover object-center sm:rounded-lg'
                   />
@@ -147,7 +148,7 @@ export default function ProductOverview() {
               <div className='mt-10 flex'>
                 <button
                   type='submit'
-                  className='flex w-full md:max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-sky-600 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full'
+                  className='flex w-full md:max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-sky-600 px-8 py-3 text-base font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full transition ease-in-out'
                 >
                   Add to cart
                 </button>
@@ -175,7 +176,7 @@ export default function ProductOverview() {
                   <Disclosure as='div' key={detail.name}>
                     {({ open }) => (
                       <>
-                        <h3>
+                        <h3 className='hover:bg-gray-50 px-2 transition ease-in-out'>
                           <Disclosure.Button className='group relative flex w-full items-center justify-between py-6 text-left'>
                             <span
                               className={classNames(
@@ -284,4 +285,32 @@ const product = {
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
+}
+
+export async function getServerSideProps(context) {
+  // Replace $productId with the actual ID you're searching for
+  const productId = context.params.id
+
+  // Fetch product details with associated images based on id (slug)
+  const productDetails = await client.fetch(
+    `
+    *[_type == 'product' && id == $productId][0]{
+      _id,
+      title,
+      id,
+      'images': images[]{
+        _id,
+        asset->{url, metadata}
+      }
+    }
+  `,
+    { productId }
+  )
+
+  // Pass the product details as props to the component
+  return {
+    props: {
+      productDetails
+    }
+  }
 }

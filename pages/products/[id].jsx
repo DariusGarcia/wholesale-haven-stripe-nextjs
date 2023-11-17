@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { Disclosure, RadioGroup, Tab } from '@headlessui/react'
 import { StarIcon } from '@heroicons/react/20/solid'
 import { HeartIcon, MinusIcon, PlusIcon } from '@heroicons/react/24/outline'
@@ -8,6 +9,14 @@ import { client } from '../../sanity/lib/client'
 
 export default function ProductOverview({ productDetails }) {
   // const [selectedColor, setSelectedColor] = useState(product.colors[0])
+  const router = useRouter()
+
+  useEffect(() => {
+    // Check if slug is undefined and redirect to 404 page
+    if (router.query.slug === '/undefined') {
+      router.push('/404')
+    }
+  }, [router.query.slug])
 
   return (
     <div className='bg-white'>
@@ -18,7 +27,7 @@ export default function ProductOverview({ productDetails }) {
             {/* Image selector */}
             <div className='mx-auto mt-6 block w-full max-w-2xl lg:max-w-none'>
               <Tab.List className='grid grid-cols-4 gap-6'>
-                {productDetails.images.map((image, index) => (
+                {productDetails?.images.map((image, index) => (
                   <Tab
                     key={index}
                     className='relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4'
@@ -48,7 +57,7 @@ export default function ProductOverview({ productDetails }) {
             </div>
 
             <Tab.Panels className='aspect-h-1 aspect-w-1 w-full'>
-              {productDetails.images.map((image, index) => (
+              {productDetails?.images.map((image, index) => (
                 <Tab.Panel key={index}>
                   <img
                     src={image.asset.url}
@@ -206,8 +215,8 @@ export default function ProductOverview({ productDetails }) {
                           className='prose prose-sm pb-6'
                         >
                           <ul role='list'>
-                            {detail.items.map(item => (
-                              <li key={item}>{item}</li>
+                            {productDetails?.features?.map(item => (
+                              <li key={item._key}>{item.description}</li>
                             ))}
                           </ul>
                         </Disclosure.Panel>
@@ -298,6 +307,7 @@ export async function getServerSideProps(context) {
       _id,
       title,
       id,
+      features,
       'images': images[]{
         _id,
         asset->{url, metadata}

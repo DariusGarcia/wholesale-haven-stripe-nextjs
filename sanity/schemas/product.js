@@ -32,6 +32,23 @@ export const product = {
           ]
         }
       ]
+    },
+    {
+      name: 'features',
+      title: 'Features',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'description',
+              title: 'Description',
+              type: 'text'
+            }
+          ]
+        }
+      ]
     }
   ],
 

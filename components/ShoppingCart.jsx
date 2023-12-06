@@ -137,7 +137,7 @@ export default function ShoppingCartSlideOver({ open, setCartSliderIsOpen }) {
                         <a
                           href='#'
                           onClick={handleCheckout}
-                          className='flex items-center justify-center rounded-md border border-transparent bg-emerald-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-700'
+                          className='flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-sky-700'
                         >
                           Checkout
                         </a>
@@ -147,7 +147,7 @@ export default function ShoppingCartSlideOver({ open, setCartSliderIsOpen }) {
                           or{' '}
                           <button
                             type='button'
-                            className='font-medium text-emerald-600 hover:text-emerald-500'
+                            className='font-medium text-sky-600 hover:text-sky-500'
                             onClick={() => setCartSliderIsOpen(false)}
                           >
                             Continue Shopping
